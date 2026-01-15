@@ -1,0 +1,305 @@
+/* --- VARIABLES --- */
+:root {
+    --primary: #00C4B4; /* Vert d'eau LearnyLib (Teal) */
+    --secondary: #0B1E3D; /* Bleu Nuit (Navy) */
+    --text: #333333;
+    --bg-light: #F4F7F6;
+    --white: #FFFFFF;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* --- RESET & GLOBAL --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body);
+    color: var(--text);
+    background-color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--secondary); font-weight: 700; }
+a { text-decoration: none; }
+img { max-width: 100%; height: auto; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section-padding { padding: 80px 0; }
+.bg-light { background-color: var(--bg-light); }
+.highlight { color: var(--primary); }
+.center { text-align: center; }
+
+/* --- BACKGROUND MOLECULES --- */
+.molecular-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none; overflow: hidden;
+    
+    /* --- NOUVEAU FOND --- */
+    /* Couleur de base très claire */
+    background-color: #F8F9FA; 
+    
+    /* Superposition de halos lumineux doux (Vert d'eau et Bleu nuit) */
+    background-image: 
+        /* Halo Vert d'eau en haut à gauche */
+        radial-gradient(circle at 10% 20%, rgba(0, 196, 180, 0.12) 0%, transparent 50%),
+        /* Halo Bleu Nuit très léger en bas à droite */
+        radial-gradient(circle at 90% 80%, rgba(11, 30, 61, 0.08) 0%, transparent 50%),
+        /* Lumière centrale blanche pour garder de la fraîcheur */
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+        
+    /* On garde les molécules qui flottent par-dessus */
+}
+.molecule {
+    position: absolute; border-radius: 50%;
+    background: var(--primary); opacity: 0.03;
+    animation: floatMolecule 25s infinite ease-in-out;
+}
+.m1 { width: 400px; height: 400px; top: -100px; left: -150px; }
+.m2 { width: 300px; height: 300px; bottom: 10%; right: -100px; animation-delay: -7s; background: var(--secondary); }
+.m3 { width: 150px; height: 150px; top: 30%; right: 20%; animation-delay: -15s; }
+
+@keyframes floatMolecule {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -50px) rotate(120deg); }
+    66% { transform: translate(-20px, 30px) rotate(240deg); }
+}
+
+/* --- NAVIGATION --- */
+nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 40px; position: absolute; width: 100%; top: 0; z-index: 10;
+}
+.logo { font-family: var(--font-heading); font-weight: 800; color: var(--secondary); font-size: 1.3rem; letter-spacing: -0.5px; }
+.nav-btn {
+    border: 2px solid var(--secondary); color: var(--secondary);
+    padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+    transition: all 0.3s;
+}
+.nav-btn:hover { background: var(--secondary); color: var(--primary); border-color: var(--secondary); }
+
+/* --- HERO SECTION --- */
+.hero-section {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; padding-top: 80px; padding-bottom: 40px;
+}
+.split-screen {
+    display: flex; align-items: center; justify-content: space-between; gap: 60px; width: 100%;
+}
+.hero-text { flex: 1; }
+
+/* Styles du visuel Hero (Image + Ombre) */
+.hero-visual {
+    flex: 1.2; padding: 20px;
+    display: flex; justify-content: center; align-items: center;
+    /*perspective: 500px; /* Pour l'effet parallaxe JS */
+}
+.image-container {
+    position: relative;
+    width: 100%; max-width: 550px;
+    text-align: center;
+}
+.hero-image {
+    display: block; width: 100%; height: auto;
+    /* Animation de lévitation */
+    /* animation: levitateImage 5s ease-in-out infinite;*/
+    /* Transition douce pour l'effet parallaxe JS */
+    transition: transform 0.1s ease-out;
+    /* Ombre portée subtile directement sur l'objet pour le détacher du fond */
+    filter: drop-shadow(0 15px 30px rgba(11, 30, 61, 0.15));
+}
+.shadow-floor {
+    width: 100%; height: 30px;
+    background: radial-gradient(ellipse at center, rgba(11, 30, 61, 0.2) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    margin: -0px auto 0; /* Positionner sous l'image */
+    position: relative; z-index: -1;
+    /* Animation de l'ombre synchronisée */
+    /* animation: shadowBreathe 5s ease-in-out infinite;*/
+}
+
+/* Animations couplées Image + Ombre */
+@keyframes levitateImage {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(1deg); } /* Monte et tourne légèrement */
+}
+@keyframes shadowBreathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.85); opacity: 0.6; } /* Rétrécit et s'éclaircit quand la boîte monte */
+}
+
+
+/* Styles du texte Hero */
+.badge {
+    background: linear-gradient(135deg, var(--secondary), var(--primary)); color: var(--white);
+    display: inline-block; padding: 6px 18px; border-radius: 50px;
+    font-size: 0.75rem; font-weight: 800; margin-bottom: 25px; letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(0, 196, 180, 0.3);
+}
+h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 15px; color: var(--secondary); letter-spacing: -2px; }
+h1 .dosage { font-weight: 300; font-size: 3rem; color: var(--primary); }
+h2 { font-size: 1.6rem; font-weight: 500; margin-bottom: 25px; color: #4a5a75; line-height: 1.4; }
+.highlight-text { color: var(--primary); font-weight: 800; position: relative; }
+.hero-text p { font-size: 1.1rem; color: #666; max-width: 500px; margin-bottom: 40px; }
+.cta-group { margin-top: 30px; display: flex; align-items: center; gap: 25px; flex-wrap: wrap; }
+
+.btn-primary {
+    background: var(--primary); color: var(--white);
+    padding: 16px 38px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+    box-shadow: 0 10px 25px rgba(0, 196, 180, 0.4);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 2px solid var(--primary);
+}
+.btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 196, 180, 0.5); background: transparent; color: var(--primary); }
+.dpc-badge { color: var(--secondary); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+.dpc-badge i { color: var(--primary); }
+.sub-note { display: block; margin-top: 12px; font-size: 0.75rem; color: #999; font-weight: 500; }
+
+/* --- SECTION SYMPTÔMES --- */
+.section-title { font-size: 2.2rem; margin-bottom: 60px; letter-spacing: -1px; }
+.section-title .subtitle { font-size: 1.1rem; font-weight: 400; color: var(--primary); display: block; margin-top: 8px; letter-spacing: 0; }
+
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; }
+.card {
+    background: var(--white); padding: 40px 30px; border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(11, 30, 61, 0.06);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-bottom: 4px solid transparent;
+    position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(to right, var(--primary), var(--secondary)); }
+.card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(11, 30, 61, 0.12); border-bottom-color: var(--primary); }
+.icon-box { font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; background: rgba(0, 196, 180, 0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.card h4 { margin-bottom: 15px; font-size: 1.3rem; }
+.card p { font-size: 0.95rem; color: #666; line-height: 1.7; }
+
+/* --- SECTION COMPOSITION --- */
+.split-screen-reverse { display: flex; align-items: center; gap: 60px; }
+.comp-visual { flex: 0.5; text-align: center; color: var(--primary); opacity: 0.15; font-size: 18rem; transform: rotate(-15deg); }
+.comp-content { flex: 1; }
+
+.skill-group { margin-top: 40px; }
+.skill-item { margin-bottom: 30px; }
+.skill-info { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 10px; color: var(--secondary); font-size: 1.1rem; }
+.skill-info span:last-child { color: var(--primary); }
+.progress-bar { width: 100%; height: 14px; background: #e0e5ec; border-radius: 10px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+.fill { height: 100%; background: linear-gradient(to right, var(--secondary), var(--primary)); width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); border-radius: 10px; }
+.excipients { margin-top: 40px; font-size: 1rem; color: #555; background: var(--white); padding: 25px; border-radius: 15px; border-left: 5px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+
+/* --- POSOLOGIE (ID CARD) --- */
+.center-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.id-card {
+    background: var(--white); padding: 50px; border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(11, 30, 61, 0.08); display: flex; align-items: center; gap: 50px;
+    max-width: 900px; width: 100%; text-align: left; border: 1px solid #f0f0f0;
+}
+.photo-frame {
+    width: 180px; height: 180px; border-radius: 50%; border: 6px solid var(--primary);
+    overflow: hidden; flex-shrink: 0; padding: 5px; background: var(--white);
+    box-shadow: 0 10px 25px rgba(0, 196, 180, 0.3);
+}
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; border-radius: 50%; }
+.photo-frame:hover img { transform: scale(1.1); }
+.id-info { flex: 1; }
+.id-info h3 { font-size: 1.8rem; margin-bottom: 5px; }
+.id-info .role { color: var(--primary); font-weight: 700; margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.id-info hr { border: none; border-top: 2px solid #f0f0f0; margin: 20px 0; }
+.specs-list { list-style: none; }
+.specs-list li { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 15px; color: #444; }
+.specs-list i { color: var(--primary); font-size: 1.2rem; width: 25px; }
+
+/* --- ÉTUDES CLINIQUES --- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; max-width: 1000px; }
+.case-study {
+    background: var(--white); padding: 40px 35px; border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(11, 30, 61, 0.05);
+    position: relative; overflow: hidden; transition: all 0.3s;
+    border: 1px solid #f5f5f5;
+}
+.case-study:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(11, 30, 61, 0.1); }
+.case-header {
+    position: absolute; top: 0; right: 0; background: var(--secondary); color: var(--white);
+    padding: 8px 20px; font-size: 0.75rem; font-weight: 800; border-bottom-left-radius: 15px; letter-spacing: 1px;
+}
+.case-study h4 { margin-top: 15px; margin-bottom: 15px; font-size: 1.4rem; }
+.case-study .problem { font-style: italic; color: #777; margin-bottom: 25px; font-size: 1rem; background: #f9f9f9; padding: 10px 15px; border-radius: 8px; }
+.case-study .result {
+    display: flex; align-items: start; gap: 15px; color: var(--secondary); font-weight: 600; font-size: 1.1rem; line-height: 1.5;
+}
+.case-study .result i { color: var(--primary); font-size: 1.5rem; margin-top: 3px; }
+
+/* --- FOOTER --- */
+footer { padding: 80px 0 50px; background: var(--secondary); color: var(--white); text-align: center; position: relative; overflow: hidden; }
+footer h2 { color: var(--white); margin-bottom: 15px; font-size: 2.5rem; }
+footer p { color: #aab8c5; margin-bottom: 50px; font-size: 1.1rem; }
+.footer-actions { display: flex; gap: 25px; justify-content: center; margin-bottom: 70px; flex-wrap: wrap; }
+.pulse-btn { animation: pulse 2s infinite; }
+.btn-secondary {
+    border: 2px solid rgba(255,255,255,0.3); color: var(--white);
+    padding: 16px 38px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+    transition: all 0.3s;
+}
+.btn-secondary:hover { background: var(--white); color: var(--secondary); border-color: var(--white); }
+.legal {border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; width: 100%; max-width: 600px; margin: 0 auto; }
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 196, 180, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(0, 196, 180, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 196, 180, 0); }
+}
+
+/* --- ANIMATIONS CLASSES --- */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.reveal-up { opacity: 0; transform: translateY(60px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
+.active { opacity: 1; transform: translate(0); }
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+.delay-4 { transition-delay: 0.6s; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    h1 { font-size: 3.5rem; }
+    h1 .dosage { font-size: 2.5rem; }
+    .split-screen, .split-screen-reverse { flex-direction: column; gap: 40px; text-align: center; }
+    .hero-text p, .cta-group { margin-left: auto; margin-right: auto; justify-content: center; }
+    .hero-visual { order: -1; /* L'image passe au-dessus sur tablette/mobile */ width: 100%; }
+    .image-container { max-width: 400px; margin: 0 auto; }
+    .comp-visual { display: none; }
+    .id-card { flex-direction: column; text-align: center; padding: 40px 30px; }
+    .specs-list li { justify-content: center; }
+}
+
+@media (max-width: 768px) {
+    nav { padding: 15px 20px; }
+    .logo { font-size: 1.1rem; }
+    .nav-btn { padding: 8px 20px; font-size: 0.8rem; }
+    h1 { font-size: 2.8rem; }
+    .hero-section { padding-top: 120px; }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; gap: 25px; }
+    .card { padding: 30px 25px; }
+    .footer-actions { flex-direction: column; gap: 15px; }
+    .btn-primary, .btn-secondary { width: 100%; }
+}
+/* Ajoute ceci dans ton fichier CSS */
+
+.tech-badge {
+    display: inline-block;
+    background: rgba(0, 196, 180, 0.15); /* Fond vert clair */
+    color: var(--primary); /* Texte Vert LearnyLib */
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border: 1px solid rgba(0, 196, 180, 0.3);
+}
+
+/* Ajustement pour le titre */
+.id-info h3 {
+    margin-top: 5px; /* Un peu d'espace après le badge */
+    font-size: 2rem; /* On grossit un peu le nom */
+}
